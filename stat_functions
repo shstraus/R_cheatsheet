@@ -1,0 +1,47 @@
+### Descriptive Statistics ###
+# Base R
+mean(df$score)
+median(df$score)
+sd(df$score)
+var(df$score)
+summary(df)
+
+# Tidyverse
+df %>% summarize(
+  mean_score = mean(score),
+  median_score = median(score),
+  sd_score = sd(score)
+)
+
+### Linear Regression ###
+# Base R
+model <- lm(y ~ x1 + x2, data = df)
+summary(model)
+predict(model, newdata)
+
+# Tidyverse
+library(broom)
+model <- lm(y ~ x1 + x2, data = df)
+tidy(model)        # coefficients
+glance(model)      # model summary
+augment(model)     # predictions and residuals
+
+### T-tests ###
+# Base R
+t.test(score ~ group, data = df)
+
+# Tidyverse
+library(broom)
+df %>% 
+  t.test(score ~ group, data = .) %>% 
+  tidy()
+
+### ANOVA ###
+  # Base R
+aov_model <- aov(score ~ group, data = df)
+summary(aov_model)
+
+# Tidyverse
+library(broom)
+aov_model <- aov(score ~ group, data = df)
+tidy(aov_model)
