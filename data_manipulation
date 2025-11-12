@@ -1,0 +1,51 @@
+### Reading Data ###
+# Base R
+df <- read.csv("file.csv")
+df <- read.table("file.txt")
+
+# Tidyverse
+library(readr)
+df <- read_csv("file.csv")
+df <- read_delim("file.txt")
+
+### Subsetting Data ###
+# Base R
+subset_df <- df[df$age > 25, c("name", "score")]
+subset_df <- subset(df, age > 25, select = c(name, score))
+
+# Tidyverse
+library(dplyr)
+subset_df <- df %>% 
+  filter(age > 25) %>% 
+  select(name, score)
+
+### Adding/Modifying Columns ###
+# Base R
+df$new_col <- df$col1 * 2
+df$category <- ifelse(df$score > 50, "high", "low")
+
+# Tidyverse
+df <- df %>% 
+  mutate(
+    new_col = col1 * 2,
+    category = if_else(score > 50, "high", "low")
+  )
+
+### Grouping and Summarizing ###
+# Base R
+agg_df <- aggregate(score ~ group, data = df, FUN = mean)
+# or
+tapply(df$score, df$group, mean)
+
+# Tidyverse
+agg_df <- df %>% 
+  group_by(group) %>% 
+  summarize(mean_score = mean(score))
+
+### Sorting ###
+# Base R
+sorted_df <- df[order(df$score, decreasing = TRUE), ]
+
+# Tidyverse
+sorted_df <- df %>% 
+  arrange(desc(score))
