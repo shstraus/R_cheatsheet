@@ -1,0 +1,26 @@
+### Wide to Long Format ###
+  # Base R
+long_df <- reshape(df, 
+  varying = list(c("score1", "score2")),
+  v.names = "score",
+  timevar = "time",
+  direction = "long")
+
+# Tidyverse
+library(tidyr)
+long_df <- df %>% 
+  pivot_longer(cols = c(score1, score2), 
+               names_to = "time", 
+               values_to = "score")
+
+  ### Long to Wide Format ###
+  # Base R
+wide_df <- reshape(long_df, 
+  timevar = "time",
+  idvar = "id",
+  direction = "wide")
+
+# Tidyverse
+wide_df <- long_df %>% 
+  pivot_wider(names_from = time, 
+              values_from = score)
